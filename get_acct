@@ -1,0 +1,37 @@
+#!/bin/sh
+
+HOST="$1"
+PORT="$2"
+NAME="$3"
+
+usage(){
+    echo "Usage: $0 host port name" >&2
+    exit 1;
+}
+
+test "$HOST" || usage
+test "$PORT" || usage
+test "$NAME" || usage
+
+if [ ! -x "`which nc`" ]; then
+    echo "netcat not found"
+    exit 1
+fi
+
+bytes_in=0
+bytes_out=0
+
+get_sum(){
+    nc -w5 $HOST $PORT | grep acct-.-$NAME | while read packets bytes chainname rest; do
+        if [ "acct-i-$NAME" = "$chainname" ]; then
+            bytes_in=$(($bytes_in+$bytes));
+            packets_in=$(($packets_in+$packets));
+        elif [ "acct-o-$NAME" = "$chainname" ]; then
+            bytes_out=$(($bytes_out+$bytes))
+            packets_out=$(($packets_out+$packets))
+        fi
+        echo "$bytes_in  $bytes_out $packets_in $packets_out"
+    done
+}
+
+get_sum | tail -1|  { read bytes_in bytes_out packets_in packets_out ; echo $bytes_in; echo $bytes_out; echo $packets_in; echo $packets_out; } 

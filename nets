@@ -1,0 +1,8 @@
+#!/bin/sh
+
+BACKBONE_DEV="eth0"
+
+gai_nets="192.168.1.0/24"
+gai_mark=105
+gai_rate=32/32
+gai_dev=eth1.42
