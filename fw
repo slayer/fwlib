@@ -3,7 +3,7 @@
 #DEBUG=1
 VERBOSE=1
 # . /etc/network/nets
-. ./fwlib
+. /etc/network/fwlib
 
 fw_init
 $ADD INPUT $DROP   $STATE_I
