@@ -257,6 +257,8 @@ fw_init(){
 
 
     if [ "x${IPV6}" = x1 ]; then
+			$FLUSH6
+			$DEL_CHAIN6
       $SET_POLICY6 INPUT      DROP
       $SET_POLICY6 OUTPUT     ACCEPT
       $SET_POLICY6 FORWARD    DROP
