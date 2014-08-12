@@ -264,7 +264,7 @@ fw_init(){
       $SET_POLICY6 FORWARD    DROP
 
 
-      $NEW_CHAIN6 MARKING -t mangle
+      $NEW_CHAIN6 MARKING -t mangle 2>/dev/null
       $ADD6 POSTROUTING -t mangle -j MARKING
 
       $NEW_CHAIN6 DROPLOG
